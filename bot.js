@@ -42,13 +42,13 @@ bot.on('ready', function (evt) {
     const date = Date();
 
     db.collection("bobotLogins").doc(date).set(docData).then(function () {
-        console.log("Document successfully written!");
+        console.log("bobot initiated.");
     });
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '.') {
+    if (message.substring(0, 1) == 'bobo') {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
        
@@ -66,7 +66,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 };
 
-                db.collection("code").add(docData).then(function () {
+                db.collection("codes").add(docData).then(function () {
                     console.log("Document successfully written!");
                 });
             break;
