@@ -13,6 +13,7 @@ var config = {
 };
 
 firebase.initializeApp(config);
+var db = firebase.firestore();
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -31,12 +32,23 @@ bot.on('ready', function (evt) {
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
 
-    logger.info(evt);
+    const docData = {
+        botId: bot.id,
+        botUsername: bot.username,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        detailedInfo: evt
+    };
+
+    const date = Date();
+
+    db.collection("bobotLogins").doc(date).set(docData).then(function () {
+        console.log("Document successfully written!");
+    });
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '-=') {
+    if (message.substring(0, 1) == '.') {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
        
@@ -46,7 +58,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'test':
                 bot.sendMessage({
                     to: channelID,
-                    message: '```Test```'
+                    message: 'Test'
+                });
+
+                const docData = {
+                    message: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+
+                db.collection("code").add(docData).then(function () {
+                    console.log("Document successfully written!");
                 });
             break;
             // Just add any case commands if you want to..
