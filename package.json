@@ -1,0 +1,26 @@
+{
+  "name": "bobot",
+  "version": "1.0.0",
+  "description": "For bobo users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boazcstrike/bobot.git"
+  },
+  "keywords": [
+    "bobot"
+  ],
+  "author": "Boaz Sze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/boazcstrike/bobot/issues"
+  },
+  "homepage": "https://github.com/boazcstrike/bobot#readme",
+  "dependencies": {
+    "discord.io": "github:woor/discord.io#gateway_v6",
+    "winston": "^3.2.0"
+  }
+}
