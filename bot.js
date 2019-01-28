@@ -2,15 +2,7 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
 var firebase = require("firebase");
-
-var config = {
-    apiKey: "AIzaSyBssN0vcQ8Sgvi7-2Euv3M4uz3YD6O6OBQ",
-    authDomain: "bobot-f5859.firebaseapp.com",
-    databaseURL: "https://bobot-f5859.firebaseio.com",
-    projectId: "bobot-f5859",
-    storageBucket: "bobot-f5859.appspot.com",
-    messagingSenderId: "968295747019"
-};
+var config = require('./firebaseConfig.json');
 
 firebase.initializeApp(config);
 var db = firebase.firestore();
@@ -28,10 +20,6 @@ var bot = new Discord.Client({
    autorun: true
 });
 bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
-
     const docData = {
         botId: bot.id,
         botUsername: bot.username,
@@ -41,14 +29,14 @@ bot.on('ready', function (evt) {
     const date = Date();
 
     db.collection("bobotNodes").doc(date).set(docData).then(function () {
-        console.log("Bobot Initiated.");
+        console.log("Bobot login as:", bot.username, bot.id);
     });
 });
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '.') {
-        var args = message.substring(1).split(' ');
+    if (message.substring(0, 5) == 'bobo ') {
+        var args = message.substring(5).split(' ');
         var cmd = args[0];
         var timestamp = firebase.firestore.FieldValue.serverTimestamp();
         args = args.splice(1);
@@ -76,7 +64,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                 }
             break;
-            // Just add any case commands if you want to..
+            case 'join':
+                try{
+                    client.joinVoiceChannel(channelID, callback);
+                    bot.sendMessage({
+                        to: channelID,
+                        message: "Pak you Austria."
+                    });
+                }catch{
+                }
+            break;
+            default:
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Impak kita diyan e!?"
+                });
          }
      }
 });

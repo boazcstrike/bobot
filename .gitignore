@@ -15,3 +15,5 @@ yarn-error.log
 composer.lock
 AppServiceProvider.php
 package-lock.json
+auth.json
+firebaseConfig.json
