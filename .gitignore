@@ -16,4 +16,5 @@ composer.lock
 AppServiceProvider.php
 package-lock.json
 auth.json
+/auth.json
 firebaseConfig.json
