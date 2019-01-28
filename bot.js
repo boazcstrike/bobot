@@ -1,9 +1,12 @@
 var Discord = require('discord.io');
 var logger = require('winston');
-var auth = require('./auth.json');
 var firebase = require("firebase");
-var config = require('./firebaseConfig.json');
+// var Discord = require('discord.js');
 
+const auth = require('./auth.json');
+const config = require('./firebaseConfig.json');
+
+var client = new Discord.Client();
 firebase.initializeApp(config);
 var db = firebase.firestore();
 
@@ -66,18 +69,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             break;
             case 'join':
                 try{
-                    client.joinVoiceChannel(channelID, callback);
+                    // client.joinVoiceChannel(channelID, callback);
                     bot.sendMessage({
                         to: channelID,
                         message: "Pak you Austria."
                     });
-                }catch{
+                }catch(err){
+                    console.log(err)
                 }
             break;
             default:
                 bot.sendMessage({
                     to: channelID,
-                    message: "Impak kita diyan e!?"
+                    message: "Bobo ka rin. Walang ganun. Impak kita diyan e!?"
                 });
          }
      }

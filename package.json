@@ -20,9 +20,13 @@
   },
   "homepage": "https://github.com/boazcstrike/bobot#readme",
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "discord.js": "^11.4.2",
     "firebase": "^5.8.1",
     "firebase-admin": "^6.5.1",
+    "opusscript": "0.0.6",
+    "uws": "^99.0.0",
     "winston": "^3.2.0"
   }
 }
