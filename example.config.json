@@ -1,4 +1,6 @@
 {
-    "DiscordBotToken": "your_bot_token_here",
-    "Prefix": "prefix_here"
+    "DiscordBotClientID": "client_ID_here",
+    "DiscordBotClientSecret": "client_token_here",
+    "DiscordBotToken": "bot_token_here",
+    "prefix": "prefix_here"
 }
