@@ -3,11 +3,11 @@ var logger = require('winston');
 var firebase = require("firebase");
 // var Discord = require('discord.js');
 
-const auth = require('./auth.json');
-const config = require('./firebaseConfig.json');
+const config = require('./config/config.json');
+const fbConfig = require('./config/firebaseConfig.json');
 
 var client = new Discord.Client();
-firebase.initializeApp(config);
+firebase.initializeApp(fbConfig);
 var db = firebase.firestore();
 
 // Configure logger settings
@@ -19,9 +19,10 @@ logger.add(new logger.transports.Console, {
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
-   token: auth.token,
-   autorun: true
+    token: config.token,
+    autorun: true
 });
+
 bot.on('ready', function (evt) {
     const docData = {
         botId: bot.id,
