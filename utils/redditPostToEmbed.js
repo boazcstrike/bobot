@@ -51,7 +51,7 @@ function redditPostToEmbed(post) {
     },
     color: 16729344,
     footer: {
-      text: "Reddit Bot by SerekKiri & MiXerek",
+      text: "Forked from Reddit Bot by SerekKiri & MiXerek",
       icon_url:
         "https://hackbrightacademy.com/content/uploads/2018/08/Reddit-logo.png"
     },

@@ -3,5 +3,5 @@
     "DiscordBotClientID": "client_ID_here",
     "DiscordBotClientSecret": "client_token_here",
     "DiscordBotToken": "bot_token_here",
-    "prefix": "prefix_here"
+    "prefix": "prefix_here_with_space "
 }

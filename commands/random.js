@@ -2,7 +2,7 @@ const axios = require("axios")
 const redditPostToEmbed = require("../utils/redditPostToEmbed")
  
 async function find(message) {
-  let mes = message.content.slice(14)
+  let mes = message.content.slice(12)
   let args = mes.split(" ")
 
    try {

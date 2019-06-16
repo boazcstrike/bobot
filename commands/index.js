@@ -1,11 +1,13 @@
 const config = require('../config/config.json')
 
-// requiring commands
+// redditbot
 const newPost = require('./new')
 const help = require('./help')
 const user = require('./user')
 const top = require('./top')
 const hot = require('./hot')
+
+// for the codes
 const github = require('./github')
 const donate = require('./donate')
 const random = require('./random')
@@ -36,9 +38,8 @@ module.exports.check = function(message) {
     if (pref) {
         if(commands[args[0]] != undefined) {
             return commands[args[0]](message)
-        }
-            else {
-                return message.reply('This command doesn\'t exist!')
+        }else {
+            return message.reply('This command doesn\'t exist yet, did you type the correct command?')
         }
     }
 

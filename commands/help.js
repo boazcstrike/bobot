@@ -9,11 +9,11 @@ async function help(message) {
         description: `**Prefix: bobo**\n
 **Commands:**
 - help
-- report (If you find a bug just help us by reporting it)
-- update (To let you know what is going on with forked RedditBot)
-- github (If you want to check the source code, you can take a look :eyes:)
-- donate (If you want you can support us to help us handle hosting costs)
-- invite (If you want to invite me to a server just use this command)
+- report (find a bug? pls help me by reporting it in github **[create issue]** :fire:)
+- update (what's going on with the forked RedditBot)
+- github (check the source code, take a look :eyes:)
+- donate (support hosting costs 😍)
+- invite (invite bobot to a server)
 - discord (Bobot support server NOT AVAILABLE YET!)
 ----------------------------------------
 **Reddit commands:**
@@ -21,7 +21,9 @@ async function help(message) {
 - hot [subreddit name] <Number of posts>
 - top [subreddit name] <Number of posts>
 - random <Number of posts>
-- user [username] (looking for users)`,
+- user [username] (looking for users)
+----------------------------------------
+**Forked from Reddit Bot by SerekKiri & MiXerek**`,
         timestamp: new Date(),
         color: 16729344,
         footer: {
