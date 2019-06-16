@@ -23,11 +23,14 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bufferutil": "^4.0.1",
+    "cron": "^1.7.1",
     "discord.js": "^11.5.1",
     "firebase": "^5.11.1",
     "flatted": "^2.0.0",
+    "jest": "^24.8.0",
     "node-cron": "^2.0.3",
     "opusscript": "0.0.6",
+    "turndown": "^5.0.3",
     "uws": "^9.14.0"
   }
 }

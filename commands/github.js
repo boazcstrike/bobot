@@ -9,9 +9,9 @@ async function git (message) {
         author: {
           name: 'Github.com',
           url: 'https://www.github.com',
-          icon_url: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png',
+          icon_url: 'https://github.com/fluidicon.png',
         },
-        description: turndownService.turndown('<a href="https://github.com/boazcstrike/Bobot">Reddit repository link</a>'),
+        description: turndownService.turndown('<a href="https://github.com/boazcstrike/Bobot">Bobot repository link</a>'),
         color: 2369838,
         footer: {
           icon_url: 'https://hackbrightacademy.com/content/uploads/2018/08/Reddit-logo.png',

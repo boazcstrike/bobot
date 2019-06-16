@@ -13,7 +13,6 @@ const report = require('./issue')
 const update = require('./update')
 const invite = require('./invite')
 const discord = require('./discord')
-const patreon = require('./patreon')
 
 const commands = {
     'new' : newPost,
@@ -28,19 +27,18 @@ const commands = {
     'update' : update,
     'invite' : invite,
     'discord' : discord,
-    'patreon': patreon
 }
 
 module.exports.check = function(message) {
-    let args = message.content.slice(config.Prefix.length).split(" ")
-    const pref = message.content.toLowerCase().startsWith(config.Prefix)
+    let args = message.content.slice(config.prefix.length).split(" ")
+    const pref = message.content.toLowerCase().startsWith(config.prefix)
 
     if (pref) {
         if(commands[args[0]] != undefined) {
             return commands[args[0]](message)
         }
             else {
-                return message.reply('This command doesn\'t exist! :<')
+                return message.reply('This command doesn\'t exist!')
         }
     }
 

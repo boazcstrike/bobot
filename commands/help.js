@@ -10,12 +10,11 @@ async function help(message) {
 **Commands:**
 - help
 - report (If you find a bug just help us by reporting it)
-- update (To let you know what is going on with Bobot)
+- update (To let you know what is going on with forked RedditBot)
 - github (If you want to check the source code, you can take a look :eyes:)
 - donate (If you want you can support us to help us handle hosting costs)
-- invite (If you want to invite me on your server just use this command)
-- discord (Bobot support server)
-- patreon (Join our team by supporting us!)
+- invite (If you want to invite me to a server just use this command)
+- discord (Bobot support server NOT AVAILABLE YET!)
 ----------------------------------------
 **Reddit commands:**
 - new [subreddit name] <Number of posts>
