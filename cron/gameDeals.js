@@ -3,7 +3,7 @@ var CronJob = require('cron').CronJob
 
 const config = require('../config/config.json')
 const getReddit = require('./_getReddit')
-const gameDealsChannel = config.TestTextChannel
+var gameDealsChannel = config.TestTextChannel
 
 if (config.env == 'prod') {
     gameDealsChannel = config.GameDealsTextChannel
