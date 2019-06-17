@@ -3,18 +3,21 @@ var CronJob = require('cron').CronJob
 
 const config = require('../config/config.json')
 const getReddit = require('./_getReddit')
-
-// const gameDealsChannel = config.GameDealsTextChannel
 const gameDealsChannel = config.TestTextChannel
+
+if (config.env == 'prod') {
+    gameDealsChannel = config.GameDealsTextChannel
+}
+
 const client = new Discord.Client()
 const defaultLimit = 5 // default number of post to send
 const time = 12 // default hours
 
 client.on('ready', () => {
     console.log(`game deals initiated, will run every ${time} hours.`)
-    newNews()
+    // newNews()
     const gamedealsJob = new CronJob('0 0 */'+time+' * *', function () {
-        console.log(`Game deals running every ${time} hours...`)
+        console.log(`Game deals running every ${time} hours... ran at ${Date()}`)
         newNews()
     })
     gamedealsJob.start()

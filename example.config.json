@@ -1,4 +1,5 @@
 {
+    "env": "",
     "DiscordBotInitialTextChannel": "",
     "DiscordBotClientID": "",
     "DiscordBotClientSecret": "",
