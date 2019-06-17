@@ -6,8 +6,8 @@ const cmds = require('./commands/index')
 const client = new Discord.Client()
 
 client.on('ready', () => {
+  console.log(`Bobot commands ready.`)
   console.log(`Bobot initiated with ${client.users.size} users in ${client.channels.size} channels.`)
-  // client.channels.get(config.TestTextChannel).send(`hi, i'm alive!`)
 });
 
 client.on('message', (message) => {
