@@ -35,11 +35,7 @@ async function clear_messages(message) {
                         description: `
                         Deletion of messages successful. If you're wondering why the message is still there, it's because I cannot delete messages that are 14 days and older. :cry:
                         Total messages to be deleted: ${args[0]}`,
-                        color: 16729344,
-                        footer: {
-                            icon_url: 'https://meme.xyz/uploads/posts/t/l-27018-thumbs-up-rambo.jpg',
-                            text: 'Bobot by boazcstrike',
-                        }
+                        color: 16729344
                     }
 
                     message.channel.send({ embed })
