@@ -1,7 +1,5 @@
 const Discord = require('discord.js')
 const axios = require("axios")
-
-var cron = require('node-cron')
 var CronJob = require('cron').CronJob
 
 const config = require('./config/config.json')
@@ -9,32 +7,69 @@ const redditPostToEmbed = require("./utils/redditPostToEmbed")
 
 const client = new Discord.Client()
 
-const textChannel = config.ServerNewsChannel
+// variables
+const testTextChannel = config.TestTextChannel
+const gameDealsChannel = config.GameDealsTextChannel
+const gamerChannel = config.GamerTextChannel
+const memesChannel = config.MemesTextChannel
+
+const defaultLimit = 5 // default number of post to send
+const mainGamerChannel = gamerChannel // default gamer channel
+const mainGameDealsChannel = gameDealsChannel // default gamer deals channel
 
 client.on('ready', () => {
-    console.log(`bobot get game deals cron has started...`)
-    getGameDeals()
-    getFreeGamesOnSteam()
+    console.log(`bobot news cron has started...`)
+    getAllNews(defaultLimit)
 
-    const job = new CronJob('0 0 */4 * *', function () {
-        console.log(`4th hr, running...`)
-        getGameDeals()
-        getFreeGamesOnSteam()
+    // cron jobs
+    const gamedealsJob = new CronJob('0 0 */18 * *', function () {
+        console.log(`running every 18 hours...`)
+        newNews()
     })
-    job.start()
+    const gamernewsJob = new CronJob('0 0 */8 * *', function () {
+        console.log(`running every 8 hours...`)
+        topNews()
+    })
+    const hourlyJob = new CronJob('0 */60 * * *', function () {
+        console.log(`running every hour...`)
+        getTopHourly('memes', memesChannel)
+    })
+    
+    //start the crons
+    gamedealsJob.start()
+    gamernewsJob.start()
+    hourlyJob.start()
+
 });
 
-async function getGameDeals() {
-    console.log(`sending r/GameDeals`)
+async function getAllNews() {
+    newNews()
+    topNews()
+    getTopHourly('memes', memesChannel)
+}
+
+async function newNews(){
+    getRedditNews('GameDeals', 'new', mainGameDealsChannel, defaultLimit)
+    getRedditNews('FreeGamesOnSteam', 'new', mainGameDealsChannel, defaultLimit)
+}
+
+async function topNews(){
+    getRedditNews('gaming', 'top', mainGamerChannel, defaultLimit)
+    getRedditNews('GirlGamers', 'top', mainGamerChannel, defaultLimit)
+}
+
+async function getRedditNews(subreddit, filter, textChannel, limit) {
     try {
-        let res = await axios.get(`https://www.reddit.com/r/GameDeals/new.json?limit=5&sort=new`)
+        let res = await axios.get(`https://www.reddit.com/r/` + subreddit + `/` + filter + `.json?limit=` + limit)
         const posts = res.data.data.children
         if (posts.length == 0) {
-            return client.channels.get(textChannel).send(`Nothing new in **r/GameDeals** :confused: `)
+            return client.channels.get(textChannel).send(`Nothing new in **r/` + subreddit + `** :confused: `)
         } else {
             for (const post of posts) {
                 const embed = redditPostToEmbed(post)
-                client.channels.get(textChannel).send({ embed })
+                !embed || embed == `` ?
+                    console.log(`embed bad`) :
+                    client.channels.get(textChannel).send({ embed })
             }
         }
     } catch (err) {
@@ -42,13 +77,13 @@ async function getGameDeals() {
     }
 }
 
-async function getFreeGamesOnSteam() {
-    console.log(`sending and r/FreeGamesOnSteam...`)
+async function getTopHourly(subreddit, textChannel) {
     try {
-        let res = await axios.get(`https://www.reddit.com/r/FreeGamesOnSteam/new.json?limit=5&sort=new`)
+        let url = `https://www.reddit.com/r/` + subreddit + `/top.json?limit=10?t=hour`
+        let res = await axios.get(url)
         const posts = res.data.data.children
         if (posts.length == 0) {
-            return client.channels.get(textChannel).send(`Nothing new in **r/FreeGamesOnSteam** :confused: `)
+            return client.channels.get(textChannel).send(`Nothing new in **r/` + subreddit + `** :confused: `)
         } else {
             for (const post of posts) {
                 const embed = redditPostToEmbed(post)

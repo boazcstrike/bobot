@@ -1,7 +1,11 @@
 {
-    "DiscordBotInitialTextChannel": "discord_channel_here",
-    "DiscordBotClientID": "client_ID_here",
-    "DiscordBotClientSecret": "client_token_here",
-    "DiscordBotToken": "bot_token_here",
-    "prefix": "prefix_here_with_space "
+    "DiscordBotInitialTextChannel": "",
+    "DiscordBotClientID": "",
+    "DiscordBotClientSecret": "",
+    "DiscordBotToken": "",
+    "GamerTextChannel": "",
+    "GameDealsTextChannel": "",
+    "MemesTextChannel": "",
+    "TestTextChannel": "",
+    "prefix": "bobo "
 }

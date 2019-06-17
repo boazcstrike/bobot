@@ -15,6 +15,7 @@ const report = require('./issue')
 const update = require('./update')
 const invite = require('./invite')
 const discord = require('./discord')
+const clear_messages = require('./clear_messages')
 
 const commands = {
     'new' : newPost,
@@ -29,6 +30,7 @@ const commands = {
     'update' : update,
     'invite' : invite,
     'discord' : discord,
+    'clear' : clear_messages,
 }
 
 module.exports.check = function(message) {

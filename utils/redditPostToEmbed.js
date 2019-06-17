@@ -40,7 +40,7 @@ function redditPostToEmbed(post) {
     title: `${text.title}`,
     url: `https://www.reddit.com${text.permalink}`,
     author: {
-      name: text.author,
+      name: `${text.author} 😎😎😎 ${text.subreddit_name_prefixed} `,
       icon_url:
         "https://i.kym-cdn.com/photos/images/newsfeed/000/919/691/9e0.png"
     },
@@ -64,6 +64,16 @@ function redditPostToEmbed(post) {
       {
         "name": `💬 Commented by`,
         "value": `${text.num_comments} people`,
+        "inline": true
+      },
+      {
+        "name": `💯 Score:`,
+        "value": `${text.score}`,
+        "inline": true
+      },
+      {
+        "name": `🎉 Awards:`,
+        "value": `${text.total_awards_received} awards`,
         "inline": true
       }
     ]

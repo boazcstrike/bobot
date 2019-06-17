@@ -4,11 +4,12 @@ async function help(message) {
         author: {
             name: 'Bobot',
             url: 'https://github.com/boazcstrike/Bobot',
-            icon_url: "https://i.kym-cdn.com/photos/images/newsfeed/000/919/691/9e0.png"
+            icon_url: "https://meme.xyz/uploads/posts/t/l-27018-thumbs-up-rambo.jpg"
         },
         description: `**Prefix: bobo**\n
 **Commands:**
-- help
+- help (tasukute!)
+- clear [number of messages] (clears 50 messages by default)
 - report (find a bug? pls help me by reporting it in github **[create issue]** :fire:)
 - update (what's going on with the forked RedditBot)
 - github (check the source code, take a look :eyes:)
