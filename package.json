@@ -4,7 +4,7 @@
   "description": "For bobo users",
   "main": "index.js",
   "scripts": {
-    "cron": "concurrently \"npm run gameDeals\" \"npm run gamerPosts\" \"npm run memes\"",
+    "cron": "concurrently \"npm run gameDeals\" \"npm run gamerPosts\" \"npm run memes\" --kill-others",
     "start": "",
     "test": "echo \"Error: no test specified\" && exit 1",
     "gameDeals": "node ./cron/gameDeals.js",
