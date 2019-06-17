@@ -16,7 +16,7 @@ const time = 8 // default hours
 client.on('ready', () => {
     console.log(`gamer news initiated, will run every ${time} hours...`)
     // topNews()
-    const gamernewsJob = new CronJob('0 0 */'+time+' * *', function () {
+    const gamernewsJob = new CronJob('0 0 */'+time+' * * *', function () {
         console.log(`running every ${time} hours... ran at ${Date()}`)
         topNews()
     })

@@ -14,7 +14,7 @@ const client = new Discord.Client()
 client.on('ready', () => {
     console.log(`meme posts initiated, running every hour.`)
     // getReddit.getTopHourly(client, 'memes', memesChannel)
-    const memesJob = new CronJob('0 0 */1 * *', function () {
+    const memesJob = new CronJob('0 0 */1 * * *', function () {
         console.log(`Memes running every hour... ran at ${Date()}`)
         getReddit.getTopHourly(client, 'memes', memesChannel)
     })
