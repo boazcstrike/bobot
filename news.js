@@ -19,7 +19,8 @@ const mainGameDealsChannel = gameDealsChannel // default gamer deals channel
 
 client.on('ready', () => {
     console.log(`bobot news cron has started...`)
-    getAllNews(defaultLimit)
+    // getAllNews(defaultLimit)
+    getTopHourly('memes', memesChannel)
 
     // cron jobs
     const gamedealsJob = new CronJob('0 0 */18 * *', function () {
@@ -30,7 +31,7 @@ client.on('ready', () => {
         console.log(`running every 8 hours...`)
         topNews()
     })
-    const hourlyJob = new CronJob('0 */60 * * *', function () {
+    const hourlyJob = new CronJob('0 0 */1 * *', function () {
         console.log(`running every hour...`)
         getTopHourly('memes', memesChannel)
     })
