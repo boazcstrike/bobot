@@ -15,4 +15,4 @@ yarn-error.log
 composer.lock
 AppServiceProvider.php
 package-lock.json
-config/*
+config
