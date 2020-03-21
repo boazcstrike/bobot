@@ -33,15 +33,16 @@ async function clear_messages(message) {
                             icon_url: 'https://meme.xyz/uploads/posts/t/l-27018-thumbs-up-rambo.jpg'
                         },
                         description: `
-                        Deletion of messages successful. If you're wondering why the message is still there, it's because I cannot delete messages that are 14 days and older. :cry:
-                        Total messages to be deleted: ${args[0]}`,
+                        Deletion of messages successful. Why is the message still there? It's cuz 14 days and older messages are undeletable. :cry:
+                        Total messages to be deleted: ${args[0]}
+                        Total messages deleted: ${message.size}`,
                         color: 16729344
                     }
 
                     message.channel.send({ embed })
                     console.log('Deletion of messages successful. Total messages deleted: ' + messages.size)
                 } catch (err) {
-                    console.log('Error while doing Bulk Delete');
+                    console.log('Error while doing bulk delete');
                     console.log(err);
                 }
             })

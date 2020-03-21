@@ -41,7 +41,7 @@ module.exports.check = function(message) {
         if(commands[args[0]] != undefined) {
             return commands[args[0]](message)
         }else {
-            return message.reply('This command doesn\'t exist yet, did you type the correct command?')
+            return message.reply('This command doesn\'t exist!?')
         }
     }
 
