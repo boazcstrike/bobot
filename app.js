@@ -79,12 +79,38 @@ client.on("message", message => {
         console.log(
             `${message.author.username} messaged '${message.content}' from ${message.channel.name}`
         );
-        if (message.content === "t") {
+        if (message.content === "check") {
+          console.log('Grabbing attendance.')
+        
+          db.ref("anteriore/")
+            .orderByChild("attendance")
+            .limitToLast(7)
+            .once('value')
+            .then(function(snapshot){
+              var dates = []
+              var emp = []
+              snapshot.forEach(function(childSnapshot){
+                //attendance
+                childSnapshot.forEach(function(child){
+                  //dates
+                  dates.push(child.key)
+                  child.forEach(function(bata){
+                    //employees
+                    emp.push(bata.key)
+                  })
+                  message.channel.send(`>>> 7-Day Attendance
+                  ${child.key}: ${emp}
+                  `)
+                })
+              })
+              console.log('Attendance sent.')
+            }).catch(function(err){
+              console.log(err)
+            })
 
-            //
-            console.log(`no message?`)
-
-        } else if(message.content === "here"){
+        } else if (message.content === ""){
+          return console.log(`no message by ${message.author.username}`)
+        } else if (message.content === "here"){
             console.log(`Starting firebase push...`)
             data = {
                 date: local.toLocaleString(DateTime.DATE_SHORT),
@@ -93,11 +119,13 @@ client.on("message", message => {
                 voice: false,
             }
             
-            db.ref("anteriore/attendance/"+message.author.username+'/').push({
-                date: data.date,
+            db
+            .ref("anteriore/attendance/" + local.toLocaleString(DateTime.DATE_MED)+'/').update({
+              [message.author.username]: {
                 time: data.time,
                 text: data.text,
                 voice: data.voice
+              }
             }, function(err){
                 if(err){
                     console.log(err)
@@ -107,15 +135,16 @@ client.on("message", message => {
             }).catch(function(err){
                 console.log(err)
             })
-            db.ref("anteriore/")
-              .child("attendance")
-              .orderByChild("date")
-              .equalTo(local.toLocaleString(DateTime.DATE_SHORT))
+
+            db.ref("anteriore/attendance/" + local.toLocaleString(DateTime.DATE_MED)+'/')
               .once("value")
               .then(function(snapshot) {
+                if(!snapshot.val()) return console.log(`No data.`)
+                var keys = Object.keys(snapshot.val())
+
                 message
-                  .channel.send(`
-                  >>> ${message.author.username} is present on ${local.toLocaleString(DateTime.DATETIME_HUGE)}. Checked in for today: ${keys.length}
+                  .channel.send(`>>> 'here' for today: ${keys.length}
+                  ${message.author.username} :white_check_mark: ${local.toLocaleString(DateTime.DATETIME_HUGE)}.
                 `);
               })
               .catch(function(err){
@@ -124,9 +153,9 @@ client.on("message", message => {
 
             console.log(`Attendance processed.`)
         } else {
-            console.log(`Checking message...`);
+            console.log(`Check...`);
             cmds.check(message);
-            console.log(`Completed.`);
+            console.log(`\nOK.\n`);
         }
 
     } catch (err) {
