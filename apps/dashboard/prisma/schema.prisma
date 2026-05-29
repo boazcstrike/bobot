@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Reminder {
+  id        Int      @id @default(autoincrement())
+  title     String
+  remindAt  DateTime
+  createdAt DateTime @default(now())
+}
