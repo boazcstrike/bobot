@@ -16,3 +16,6 @@ composer.lock
 AppServiceProvider.php
 package-lock.json
 config
+data/*.csv
+data/*.xlsx
+data/*.xls
