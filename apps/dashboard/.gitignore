@@ -2,3 +2,9 @@ node_modules/
 .next/
 .env
 .data/
+
+# Dev server logs
+tmp-dev*.log
+
+# Temp HTML snapshots
+_h.html

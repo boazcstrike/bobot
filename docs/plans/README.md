@@ -3,6 +3,10 @@
 ## Purpose
 Build a practical, execution-focused strategy to reach **$2,000/month within 6 months** from Instagram using digital products.
 
+## Plan Status (May 30, 2026)
+- Active plans stay in `docs/plans/`.
+- Completed plans are moved to `docs/finished-tasks/`.
+
 ## Direction Update
 The repository now also includes a product-direction pivot for Bobot as a personal PC assistant. For engineering execution, treat this as the active product plan:
 - `14-bobot-personal-assistant-platform.md`
@@ -46,7 +50,13 @@ This plan is intentionally layered:
 - `13-bio-dm-script-and-simple-funnel.md` - converting bio copy, keyword DM script, and reel-to-purchase funnel
 - `14-bobot-personal-assistant-platform.md` - Bobot personal assistant product direction and MVP platform scope
 - `15-mongodb-integration-and-connection-checker.md` - phased MongoDB integration plan while preserving `data/` as local backup
-- `16-credit-card-statements-gmail-integration-plan.md` - UI/UX and implementation plan for RCBC statement ingestion from Gmail into `data/credit-card-statements/`
+- `17-playwright-mcp-chrome-alternative-bootstrap.md` - alternative browser-driven sync architecture using Playwright MCP + Chrome
+- `18-playwright-mcp-chrome-setup-runbook.md` - local install/setup runbook for extension/CDP connection modes
+- `19-credit-card-statements-sync-methods-information-2026-05-31.md` - official information guide for the two sync methods (Gmail API and Playwright MCP with 5.4-mini)
+
+## Archived / Finished Tasks
+- See `docs/finished-tasks/README.md`
+- `16-credit-card-statements-gmail-integration-plan.md` was moved to `docs/finished-tasks/`
 
 ## Success Definition
 By end of month 6:

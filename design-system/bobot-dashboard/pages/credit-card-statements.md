@@ -1,7 +1,7 @@
 # Credit Card Statements Page Overrides
 
 > **PROJECT:** Bobot Dashboard
-> **Generated:** 2026-05-30 16:35:48
+> **Generated:** 2026-05-30 23:27:30
 > **Page Type:** Dashboard / Data View
 
 > ⚠️ **IMPORTANT:** Rules in this file **override** the Master file (`design-system/MASTER.md`).

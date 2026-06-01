@@ -1,5 +1,10 @@
 # Credit Card Statements Gmail Integration Plan
 
+## Archive Status
+- Status: Completed and moved from `docs/plans/` on May 30, 2026.
+- Completion basis: the dashboard now includes statement sync, manifest analytics/list APIs, and RCBC attachment ingestion flow in `apps/dashboard`.
+- Current operations reference: `docs/plans/19-credit-card-statements-sync-methods-information-2026-05-31.md` (dual-method sync information).
+
 ## Goal
 Add a dedicated Credit Card Statements dashboard flow that:
 - fetches RCBC statement emails from `boaz.sze@gmail.com` (newest to oldest),

@@ -19,3 +19,16 @@ config
 data/*.csv
 data/*.xlsx
 data/*.xls
+data/github-repos/
+data/credit-card-statements/raw/
+
+# Playwright MCP logs
+.playwright-mcp/
+
+# Screenshots / temp images
+*.png
+*.jpg
+*.jpeg
+
+# Misc artifacts
+skills-lock.json
