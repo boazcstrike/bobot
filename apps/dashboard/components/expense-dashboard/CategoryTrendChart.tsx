@@ -19,7 +19,7 @@ export function CategoryTrendChart({
 
   return (
     <div className="grid gap-3">
-      <Select value={category} onValueChange={setCategory}>
+      <Select value={category} onValueChange={(value) => value && setCategory(value)}>
         <SelectTrigger className="w-full max-w-xs">
           <SelectValue placeholder="Category" />
         </SelectTrigger>

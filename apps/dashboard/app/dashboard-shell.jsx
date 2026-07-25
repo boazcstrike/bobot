@@ -7,9 +7,26 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ControlRailShell from "./components/control-rail-shell";
+import FullLayout from "@/components/layout/full-layout";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const THEME_GROUPS = [
+  {
+    id: "default",
+    title: "Template Default",
+    description:
+      "The ported shadcndashboard identity — neutral surfaces that follow the light/dark toggle in the header.",
+    themes: [
+      {
+        id: "template-default",
+        name: "Shadcn Neutral",
+        note: "Follows the header light/dark switch.",
+        swatches: ["#ffffff", "#f5f5f5", "#e5e5e5", "#525252", "#0a0a0a"],
+        // No vars: the stylesheet's :root / .dark tokens drive the palette.
+        vars: null,
+      },
+    ],
+  },
   {
     id: "luxury",
     title: "Luxury Grey and Black",
@@ -334,16 +351,25 @@ const SETTINGS_TABS = [
   { id: "workspace", label: "Workspace", icon: SlidersHorizontal },
 ];
 
-// Per-route wrapper class names. Preserves the layout/styling each page used to
-// set itself before the shell was hoisted into the root layout.
+// Per-route wrapper class names. Preserves the styling each page relied on
+// before the shell was hoisted into the root layout. The home route now uses
+// the ported dashboard grid and needs no legacy wrapper.
 const PAGE_CLASS_MAP = {
-  "/": { pageClassName: "dashboard-control-center", mainClassName: "dashboard-main" },
-  "/laundry": { pageClassName: "dashboard-shell", mainClassName: "dashboard-content dashboard-stack" },
-  "/expenses": { pageClassName: "expenses-dashboard-page", mainClassName: "dashboard-main" },
-  "/expense-dashboard": { pageClassName: "expenses-dashboard-page", mainClassName: "dashboard-main" },
-  "/personal-github-repos": { pageClassName: "personal-github-page", mainClassName: "dashboard-main" },
+  "/expenses": "legacy-page expenses-dashboard-page",
+  "/personal-github-repos": "legacy-page personal-github-page",
 };
-const DEFAULT_PAGE_CLASS = { pageClassName: "", mainClassName: "dashboard-main" };
+
+// Every custom property any palette can write. Applying a palette clears this
+// whole set first so switching schemes (or back to the token default) never
+// leaves stale declarations behind on <html>.
+const OVERRIDABLE_VAR_NAMES = [
+  ...new Set(
+    ALL_THEMES.flatMap((theme) => {
+      if (!theme.vars) return [];
+      return [...Object.keys(theme.vars), ...Object.keys(buildShadcnTokenVars(theme.vars))];
+    }),
+  ),
+];
 
 function buildShadcnTokenVars(vars) {
   const background = vars["--color-background"];
@@ -481,7 +507,7 @@ export default function DashboardShell({ children }) {
   const [activeSettingsTab, setActiveSettingsTab] = useState(getInitialSettingsTab);
   const [pendingStatements, setPendingStatements] = useState(0);
 
-  const pageClasses = PAGE_CLASS_MAP[pathname] ?? DEFAULT_PAGE_CLASS;
+  const pageClassName = PAGE_CLASS_MAP[pathname] ?? "";
 
   // Persist theme + active tab whenever they change.
   useEffect(() => {
@@ -499,21 +525,21 @@ export default function DashboardShell({ children }) {
     [selectedThemeId],
   );
 
-  // Apply the active theme as CSS custom properties on <html>. The ~40 vars are
-  // written in a single cssText append instead of per-property setProperty calls
-  // to avoid one style-recalc per variable.
+  // Apply the active palette as CSS custom properties on <html>. Every
+  // overridable property is cleared first, so the "Shadcn Neutral" scheme (which
+  // carries no vars) falls back to the stylesheet's :root/.dark tokens and the
+  // header light/dark toggle takes over.
   useEffect(() => {
-    const mergedThemeVars = {
-      ...selectedTheme.vars,
-      ...buildShadcnTokenVars(selectedTheme.vars),
-    };
-
     const root = document.documentElement;
-    const declarations = Object.entries(mergedThemeVars)
-      .map(([name, value]) => `${name}: ${value};`)
-      .join("");
-    // Single write: append the theme declarations to the existing inline style.
-    root.style.cssText += declarations;
+    OVERRIDABLE_VAR_NAMES.forEach((name) => root.style.removeProperty(name));
+
+    const mergedThemeVars = selectedTheme.vars
+      ? { ...selectedTheme.vars, ...buildShadcnTokenVars(selectedTheme.vars) }
+      : {};
+
+    Object.entries(mergedThemeVars).forEach(([name, value]) => {
+      root.style.setProperty(name, value);
+    });
 
     // Persist resolved CSS vars so the root layout's pre-paint script can
     // re-apply the active theme on every reload/route before React mounts.
@@ -561,17 +587,17 @@ export default function DashboardShell({ children }) {
 
   return (
     <ShellContext.Provider value={contextValue}>
-      <ControlRailShell
-        pageClassName={pageClasses.pageClassName}
-        mainClassName={pageClasses.mainClassName}
-        pendingStatements={pendingStatements}
-        onOpenSettings={() => {
-          setActiveSettingsTab("personalization");
-          setSettingsOpen(true);
-        }}
-      >
-        {children}
-      </ControlRailShell>
+      <ThemeProvider>
+        <FullLayout
+          pendingStatements={pendingStatements}
+          onOpenSettings={() => {
+            setActiveSettingsTab("personalization");
+            setSettingsOpen(true);
+          }}
+        >
+          <div className={pageClassName}>{children}</div>
+        </FullLayout>
+      </ThemeProvider>
 
       <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
         <DialogContent

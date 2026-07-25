@@ -7,15 +7,22 @@ export const metadata = {
 };
 
 const THEME_VARS_STORAGE_KEY = "bobot-dashboard-theme-vars";
+const COLOR_MODE_STORAGE_KEY = "bobot-dashboard-color-mode";
 
 // Runs synchronously during HTML parse, before first paint, on every route and
-// hard reload — re-applies the persisted theme so the saved color scheme loads
-// instead of resetting to the default.
-const themeBootScript = `(function(){try{var v=localStorage.getItem("${THEME_VARS_STORAGE_KEY}");if(!v)return;var vars=JSON.parse(v);var root=document.documentElement;for(var k in vars){if(k.charAt(0)==="-"){root.style.setProperty(k,vars[k]);}}}catch(e){}})();`;
+// hard reload — re-applies the persisted light/dark mode and palette overrides
+// so the saved color scheme loads instead of flashing the default.
+const themeBootScript = `(function(){try{var root=document.documentElement;var m=localStorage.getItem("${COLOR_MODE_STORAGE_KEY}");if(!m){m=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}if(m==="dark"){root.classList.add("dark");}root.style.colorScheme=m;var v=localStorage.getItem("${THEME_VARS_STORAGE_KEY}");if(!v)return;var vars=JSON.parse(v);for(var k in vars){if(k.charAt(0)==="-"){root.style.setProperty(k,vars[k]);}}}catch(e){}})();`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="style-lyra"
+      data-sidebar-type="true"
+      data-card-shadow="false"
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>

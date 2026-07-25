@@ -207,7 +207,7 @@ function FilterSelect({
   return (
     <label className="grid gap-1.5">
       <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">{label}</span>
-      <Select value={value} onValueChange={onChange}>
+      <Select value={value} onValueChange={(next) => next && onChange(next)}>
         <SelectTrigger className="w-full">
           <SelectValue />
         </SelectTrigger>

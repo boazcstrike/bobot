@@ -1,11 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap");
+/* Geist drives the ported shell; Fira is retained for `.legacy-page` routes. */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Fira+Code:wght@500;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+/* shadcn "lyra" style layer — restyles every cn-* component slot. Scoped to
+   the .style-lyra class set on <html> in app/layout.js. */
+@import "./styles/style-lyra.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant style-lyra (&:where(.style-lyra *));
+
+@theme {
+  --shadow-btn-shadow: 0 9px 17.5px rgba(0, 0, 0, 0.05);
+  --margin-30: 30px;
+  --text-40: 40px;
+}
 
 :root {
+  --font-geist: "Geist", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
   --color-primary: #1e40af;
   --color-secondary: #3b82f6;
   --color-cta: #f59e0b;
@@ -41,38 +54,44 @@
   --shadow-sm: 0 1px 2px rgba(30, 58, 138, 0.06);
   --shadow-md: 0 10px 24px rgba(30, 58, 138, 0.08);
   --shadow-lg: 0 20px 36px rgba(30, 58, 138, 0.12);
-  --background: var(--color-background);
-  --foreground: var(--color-text);
-  --card: var(--color-surface);
-  --card-foreground: var(--color-text);
-  --popover: var(--color-surface);
-  --popover-foreground: var(--color-text);
-  --primary: var(--color-primary);
-  --primary-foreground: var(--color-background);
-  --secondary: var(--color-secondary);
-  --secondary-foreground: var(--color-background);
-  --muted: var(--card-surface-alt);
-  --muted-foreground: var(--color-text-muted);
-  --accent: var(--color-cta);
-  --accent-foreground: var(--color-background);
-  --destructive: var(--color-danger);
-  --border: var(--color-border);
-  --input: var(--color-border-strong);
-  --ring: var(--color-secondary);
-  --chart-1: var(--color-primary);
-  --chart-2: var(--color-secondary);
-  --chart-3: var(--color-cta);
-  --chart-4: var(--color-success);
-  --chart-5: var(--color-warn);
-  --radius: 0.625rem;
-  --sidebar: var(--color-surface);
-  --sidebar-foreground: var(--color-text);
-  --sidebar-primary: var(--color-primary);
-  --sidebar-primary-foreground: var(--color-background);
-  --sidebar-accent: var(--card-surface-alt);
-  --sidebar-accent-foreground: var(--color-text);
-  --sidebar-border: var(--color-border);
-  --sidebar-ring: var(--color-secondary);
+  /* Semantic shadcn tokens — the ported template's neutral light identity.
+     A palette picked in Settings overrides these as inline styles on <html>;
+     the header light/dark switch flips to the .dark block below. */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --success: oklch(0.627 0.194 149.214);
+  --warning: oklch(0.795 0.184 86.047);
+  --error: oklch(0.577 0.245 27.325);
+  --radius: 8px;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 
   /* ── New design tokens ─────────────────────────────────────── */
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -154,19 +173,19 @@ body.is-modal-open .mesh-bg {
 
 body {
   margin: 0;
+}
+
+/* ── Legacy page scope ───────────────────────────────────────────
+   Everything below that targets bare elements (headings, inputs,
+   buttons, links) predates the ported shell. It is confined to
+   `.legacy-page` so it cannot restyle the shadcn chrome. Routes that
+   opt in are listed in PAGE_CLASS_MAP in app/dashboard-shell.jsx. */
+.legacy-page {
   color: var(--color-text);
-  background:
-    radial-gradient(circle at 8% 8%, var(--ambient-1), transparent 34%),
-    radial-gradient(circle at 88% 0%, var(--ambient-2), transparent 36%),
-    radial-gradient(circle at 60% 92%, var(--ambient-3), transparent 38%),
-    var(--color-background);
   font-family: "Fira Sans", sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4 {
+.legacy-page :is(h1, h2, h3, h4) {
   margin-top: 0;
   margin-bottom: var(--space-sm);
   color: var(--color-text);
@@ -1110,271 +1129,6 @@ p {
   font-size: 13px;
 }
 
-.dashboard-grid-laundry {
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-}
-
-.laundry-overview-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
-  align-items: start;
-  gap: var(--space-md);
-}
-
-.laundry-summary-card {
-  justify-self: end;
-  width: 100%;
-  max-width: 440px;
-}
-
-.laundry-summary-card .dashboard-card-header {
-  margin-bottom: 8px;
-}
-
-.laundry-summary-card .dashboard-card-body {
-  gap: 8px;
-}
-
-.laundry-summary-card .success-meter {
-  margin-bottom: 2px;
-}
-
-/* ---- Next forecasted laundry highlight ---- */
-.forecast-highlight {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  margin-bottom: 4px;
-  border-radius: 14px;
-  overflow: hidden;
-  isolation: isolate;
-  color: var(--foreground);
-  border: 1px solid color-mix(in srgb, var(--fc-accent) 45%, var(--border));
-  background:
-    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--fc-accent) 22%, transparent), transparent 60%),
-    linear-gradient(135deg, color-mix(in srgb, var(--fc-accent) 16%, var(--card)), var(--card));
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--fc-accent) 18%, transparent),
-    0 10px 30px -16px color-mix(in srgb, var(--fc-accent) 90%, transparent);
-  animation: forecastGlow 2.8s ease-in-out infinite;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  --fc-accent: var(--primary, #2563eb);
-}
-
-.forecast-highlight:hover {
-  transform: translateY(-1px);
-}
-
-.forecast-highlight-normal {
-  --fc-accent: var(--primary, #2563eb);
-}
-
-.forecast-highlight-soon {
-  --fc-accent: #f59e0b;
-}
-
-.forecast-highlight-overdue {
-  --fc-accent: #ef4444;
-  animation: forecastGlow 1.3s ease-in-out infinite;
-}
-
-.forecast-highlight-idle {
-  --fc-accent: var(--muted-foreground, #94a3b8);
-  animation: none;
-  box-shadow: none;
-}
-
-/* moving light sweep across the card */
-.forecast-highlight-sheen {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    color-mix(in srgb, var(--fc-accent) 28%, transparent) 50%,
-    transparent 80%
-  );
-  transform: translateX(-120%);
-  animation: forecastSheen 3.4s ease-in-out infinite;
-}
-
-.forecast-highlight-idle .forecast-highlight-sheen {
-  animation: none;
-  opacity: 0;
-}
-
-.forecast-highlight-icon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  color: var(--fc-accent);
-  background: color-mix(in srgb, var(--fc-accent) 16%, var(--background));
-  border: 1px solid color-mix(in srgb, var(--fc-accent) 38%, transparent);
-  animation: forecastBob 2.8s ease-in-out infinite;
-}
-
-.forecast-highlight-overdue .forecast-highlight-icon {
-  animation: forecastShake 0.9s ease-in-out infinite;
-}
-
-.forecast-highlight-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.forecast-highlight-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted-foreground, #64748b);
-}
-
-.forecast-highlight-spark {
-  color: var(--fc-accent);
-  animation: forecastSparkle 1.8s ease-in-out infinite;
-}
-
-.forecast-highlight-date {
-  font-size: 1.18rem;
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--foreground);
-}
-
-.forecast-highlight-countdown {
-  align-self: flex-start;
-  margin-top: 4px;
-  padding: 2px 9px;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--fc-accent);
-  background: color-mix(in srgb, var(--fc-accent) 16%, var(--background));
-  border: 1px solid color-mix(in srgb, var(--fc-accent) 40%, transparent);
-}
-
-.forecast-highlight-soon .forecast-highlight-countdown,
-.forecast-highlight-overdue .forecast-highlight-countdown {
-  animation: forecastPulse 1.4s ease-in-out infinite;
-}
-
-@keyframes forecastGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--fc-accent) 18%, transparent),
-      0 10px 30px -16px color-mix(in srgb, var(--fc-accent) 90%, transparent);
-  }
-  50% {
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--fc-accent) 38%, transparent),
-      0 14px 40px -14px color-mix(in srgb, var(--fc-accent) 100%, transparent);
-  }
-}
-
-@keyframes forecastSheen {
-  0% { transform: translateX(-120%); }
-  55%, 100% { transform: translateX(120%); }
-}
-
-@keyframes forecastBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-@keyframes forecastShake {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  25% { transform: translateX(-1.5px) rotate(-4deg); }
-  75% { transform: translateX(1.5px) rotate(4deg); }
-}
-
-@keyframes forecastSparkle {
-  0%, 100% { opacity: 0.5; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-
-@keyframes forecastPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
-.laundry-summary-card [data-slot="table-cell"] {
-  padding: 6px 8px;
-  white-space: normal;
-}
-
-.laundry-summary-card [data-slot="table-cell"]:first-child {
-  width: 44%;
-}
-
-.laundry-tabs {
-  gap: 12px;
-}
-
-.laundry-tabs-list {
-  min-height: 40px;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--muted) 88%, var(--background));
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--background) 72%, transparent);
-}
-
-.laundry-tabs-list [data-slot="tabs-trigger"] {
-  min-width: 124px;
-  border: 1px solid transparent;
-  padding: 6px 14px;
-}
-
-.laundry-tabs-list [data-slot="tabs-trigger"][data-active] {
-  border-color: var(--border);
-  background: var(--background);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--foreground) 12%, transparent);
-}
-
-.laundry-current-grid {
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
-  align-items: start;
-}
-
-.laundry-runtime-card {
-  align-self: start;
-  width: 100%;
-  max-width: 360px;
-}
-
-.laundry-runtime-card .dashboard-card-body {
-  gap: 10px;
-}
-
-.laundry-runtime-card .input-row {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.laundry-runtime-card .dashboard-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.laundry-runtime-card .dashboard-actions button {
-  width: 100%;
-}
-
-.laundry-runtime-card .dashboard-logs pre {
-  max-height: 140px;
-}
-
 /* Pack panels into a left-anchored grid that fills the content column.
    auto-fill keeps card width sane (320–460px) while flowing top-left. */
 .action-grid,
@@ -1482,14 +1236,13 @@ p {
   font-size: 13px;
 }
 
-label {
+.legacy-page label {
   display: inline-block;
   margin-bottom: 6px;
   font-weight: 600;
 }
 
-input,
-button {
+.legacy-page :is(input, button) {
   border: 1px solid var(--color-border-strong);
   border-radius: 10px;
   background: var(--color-surface);
@@ -1498,20 +1251,18 @@ button {
   padding: 10px 12px;
 }
 
-input {
+.legacy-page input {
   min-width: 220px;
   flex: 1;
 }
 
-input:focus-visible,
-button:focus-visible,
-a:focus-visible,
+.legacy-page :is(input, button, a):focus-visible,
 .focus-ring:focus-visible {
   outline: 2px solid var(--color-secondary);
   outline-offset: 2px;
 }
 
-button {
+.legacy-page button {
   cursor: pointer;
   transition:
     background-color 200ms var(--ease-out),
@@ -1520,7 +1271,7 @@ button {
     transform 200ms var(--ease-out);
 }
 
-button:hover:not(:disabled),
+.legacy-page button:hover:not(:disabled),
 .interactive:hover {
   transform: translateY(-1px);
 }
@@ -1529,7 +1280,7 @@ button:hover:not(:disabled),
   transform: scale(0.97);
 }
 
-button:disabled {
+.legacy-page button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
@@ -1567,13 +1318,13 @@ button:disabled {
   border-color: color-mix(in srgb, var(--color-secondary) 34%, transparent);
 }
 
-a {
+.legacy-page a {
   color: var(--color-primary);
   text-underline-offset: 2px;
   transition: color 200ms ease;
 }
 
-a:hover {
+.legacy-page a:hover {
   color: var(--color-secondary);
 }
 
@@ -1759,183 +1510,6 @@ a:hover {
 .dashboard-card-body {
   display: grid;
   gap: 12px;
-}
-
-.forecast-body {
-  gap: var(--space-lg);
-}
-
-.forecast-headline {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-/* Hero: next date + stat pills */
-.forecast-hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-md);
-}
-
-.forecast-next {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.forecast-date {
-  font-size: 1.75rem;
-  line-height: 1.1;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.forecast-countdown {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--chart-3, var(--color-cta));
-}
-
-.forecast-range {
-  margin: 4px 0 0;
-  font-size: 0.8rem;
-  color: var(--muted-foreground);
-}
-
-.forecast-overdue {
-  color: var(--destructive, #ef4444);
-}
-
-.forecast-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.forecast-pill {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  min-width: 84px;
-  padding: 8px 14px;
-  border: 1px solid var(--border, rgba(148, 163, 184, 0.3));
-  border-radius: 12px;
-  background: var(--card, rgba(148, 163, 184, 0.06));
-}
-
-.forecast-pill strong {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-/* Section headers inside the card */
-.forecast-section-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-sm);
-}
-
-.forecast-section-head h3 {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.forecast-section-head .muted {
-  font-size: 0.75rem;
-}
-
-.forecast-caption {
-  margin: 8px 0 0;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: var(--muted-foreground);
-}
-
-.forecast-caption strong {
-  color: var(--foreground);
-  font-weight: 600;
-}
-
-/* Upcoming day chips (exact predicted points) */
-.forecast-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.forecast-chip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  min-width: 72px;
-  padding: 8px 12px;
-  border: 1px solid var(--border, rgba(148, 163, 184, 0.3));
-  border-radius: 12px;
-  background: var(--card, rgba(148, 163, 184, 0.06));
-}
-
-.forecast-chip-weekday {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted-foreground);
-}
-
-.forecast-chip-day {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.forecast-chip-spread {
-  font-size: 0.7rem;
-  color: var(--chart-3, var(--color-cta));
-}
-
-/* Monthly outlook list */
-.forecast-month-list {
-  display: grid;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.forecast-month-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border, rgba(148, 163, 184, 0.18));
-  font-size: 0.85rem;
-}
-
-.forecast-month-list li:last-child {
-  border-bottom: none;
-}
-
-.forecast-month-list strong {
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.forecast-formula-trigger {
-  align-self: flex-start;
-  gap: 6px;
-  color: var(--muted-foreground);
 }
 
 .dashboard-reminder-form {
@@ -3002,27 +2576,11 @@ a:hover {
   .action-grid,
   .system-grid,
   .dashboard-grid,
-  .laundry-overview-grid,
-  .laundry-current-grid,
   .dashboard-layout,
   .dual-col,
   .personal-github-workbench,
   .expenses-analysis-grid {
     grid-template-columns: 1fr;
-  }
-
-  .laundry-summary-card,
-  .laundry-runtime-card {
-    max-width: none;
-    justify-self: stretch;
-  }
-
-  .laundry-tabs-list {
-    width: 100%;
-  }
-
-  .laundry-tabs-list [data-slot="tabs-trigger"] {
-    min-width: 0;
   }
 
   .personal-github-panel {
@@ -3105,11 +2663,7 @@ a:hover {
   .theme-option,
   .personal-github-repo-row,
   .personal-github-curated-row,
-  .kpi-card,
-  .forecast-highlight,
-  .forecast-highlight-icon,
-  .forecast-highlight-spark,
-  .forecast-highlight-countdown {
+  .kpi-card {
     animation: none !important;
     transition: none !important;
     transform: none !important;
@@ -3118,20 +2672,16 @@ a:hover {
   .personal-github-repo-row::before,
   .personal-github-curated-row::before,
   .personal-github-category-node::before,
-  .personal-github-category-bullet svg,
-  .forecast-highlight-sheen {
+  .personal-github-category-bullet svg {
     animation: none !important;
     transition: none !important;
-  }
-
-  .forecast-highlight-sheen {
-    opacity: 0;
   }
 }
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -3173,6 +2723,30 @@ a:hover {
 }
 
 .dark {
+  /* Legacy `--color-*` vars drive the pre-port page styles. Give them a dark
+     counterpart so `.legacy-page` routes follow the header light/dark switch
+     instead of staying stuck on the light palette. */
+  --color-primary: #d4d4d4;
+  --color-secondary: #a3a3a3;
+  --color-cta: #e5e5e5;
+  --color-background: #0a0a0a;
+  --color-surface: #171717;
+  --color-text: #fafafa;
+  --color-text-muted: #a3a3a3;
+  --color-border: #2a2a2a;
+  --color-border-strong: #3f3f3f;
+  --color-success: #4ade80;
+  --color-warn: #fbbf24;
+  --color-idle: #a3a3a3;
+  --color-danger: #f87171;
+  --ambient-1: rgba(255, 255, 255, 0.05);
+  --ambient-2: rgba(255, 255, 255, 0.04);
+  --ambient-3: rgba(255, 255, 255, 0.03);
+  --grid-line-1: rgba(255, 255, 255, 0.06);
+  --grid-line-2: rgba(255, 255, 255, 0.04);
+  --card-surface: rgba(23, 23, 23, 0.98);
+  --card-surface-alt: rgba(38, 38, 38, 0.94);
+
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -3241,5 +2815,103 @@ a:hover {
   }
   *::-webkit-scrollbar-corner {
     background: transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Template layer — ported from shadcndashboard (MIT). Drives the shell chrome:
+   sidebar hover-preview, card shadow mode, and layout container width.
+   --------------------------------------------------------------------------- */
+
+@utility container {
+  @apply max-w-[1367px] mx-auto;
+}
+
+@utility btn-circle-hover {
+  @apply h-9 w-9 flex justify-center items-center rounded-full hover:bg-primary/5 hover:text-primary cursor-pointer bg-transparent;
+}
+
+/* Card shadow mode, switched by the data attribute on <html>. */
+html[data-card-shadow="true"] [data-slot="card"] {
+  @apply shadow-md ring-0;
+}
+
+html[data-card-shadow="false"] [data-slot="card"] {
+  @apply border shadow-none ring-0;
+}
+
+[data-slot="input"],
+[data-slot="textarea"] {
+  @apply focus-visible:border-primary focus-visible:ring-[0px];
+}
+
+/* Icon-rail sidebar that expands to a 250px preview on hover. Only applies
+   while the sidebar is genuinely collapsed — expanded state renders normally. */
+[data-sidebar-type="true"] {
+  [data-slot="sidebar"][data-collapsible="icon"] {
+    .sidebar-box .hide-menu {
+      @apply hidden;
+    }
+
+    .sidebar-box:hover {
+      width: 250px !important;
+      @apply transition-all duration-300;
+
+      [data-slot="sidebar-container"],
+      [data-sidebar="sidebar"],
+      [data-sidebar="sidebar-inner"] {
+        width: 250px !important;
+        transition: width 0.3s ease-in-out !important;
+      }
+
+      .hide-menu {
+        display: flex !important;
+      }
+
+      div.hide-menu {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      span.hide-menu {
+        display: inline-block !important;
+        white-space: nowrap !important;
+      }
+
+      [data-slot="sidebar-menu-button"],
+      [data-sidebar="menu-button"] {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 44px !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        justify-content: flex-start !important;
+      }
+
+      [data-sidebar="menu-button"] .flex.items-center {
+        padding: 8px 12px !important;
+        width: 100% !important;
+        gap: 12px !important;
+      }
+    }
+
+    .sidebar-box:not(:hover) {
+      [data-sidebar="menu-button"] {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      [data-sidebar="menu-button"] .flex.items-center {
+        justify-content: center !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        width: 100% !important;
+      }
+    }
   }
 }

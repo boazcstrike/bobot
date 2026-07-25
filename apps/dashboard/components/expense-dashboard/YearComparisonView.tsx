@@ -40,7 +40,15 @@ export function YearComparisonView({
       <CardContent className="grid gap-4">
         <div className="grid gap-3 sm:grid-cols-2">
           {[yearA, yearB].map((value, index) => (
-            <Select key={index} value={value} onValueChange={index === 0 ? setYearA : setYearB}>
+            <Select
+              key={index}
+              value={value}
+              onValueChange={(next) => {
+                if (!next) return;
+                if (index === 0) setYearA(next);
+                else setYearB(next);
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder={`Year ${index === 0 ? "A" : "B"}`} />
               </SelectTrigger>

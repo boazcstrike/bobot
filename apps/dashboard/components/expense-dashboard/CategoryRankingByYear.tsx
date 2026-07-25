@@ -26,7 +26,7 @@ export function CategoryRankingByYear({
 
   return (
     <div className="grid gap-3">
-      <Select value={year} onValueChange={setYear}>
+      <Select value={year} onValueChange={(value) => value && setYear(value)}>
         <SelectTrigger className="w-full max-w-xs">
           <SelectValue placeholder="Year" />
         </SelectTrigger>
