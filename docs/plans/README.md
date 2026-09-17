@@ -53,6 +53,7 @@ This plan is intentionally layered:
 - `17-playwright-mcp-chrome-alternative-bootstrap.md` - alternative browser-driven sync architecture using Playwright MCP + Chrome
 - `18-playwright-mcp-chrome-setup-runbook.md` - local install/setup runbook for extension/CDP connection modes
 - `19-credit-card-statements-sync-methods-information-2026-05-31.md` - official information guide for the two sync methods (Gmail API and Playwright MCP with 5.4-mini)
+- `20-binance-spot-trading-bot.md` - Binance spot bot worker + /trading dashboard page, its safety properties, and known limits
 
 ## Archived / Finished Tasks
 - See `docs/finished-tasks/README.md`

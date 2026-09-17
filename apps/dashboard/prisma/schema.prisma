@@ -12,3 +12,78 @@ model Reminder {
   remindAt  DateTime
   createdAt DateTime @default(now())
 }
+
+// ---------------------------------------------------------------------------
+// Binance spot trading bot.
+//
+// Two processes touch these tables: the Next.js dashboard and the standalone
+// worker in `bot/`. Writes are split so no table has two writers — the
+// dashboard owns BotConfig, the worker owns everything else.
+// ---------------------------------------------------------------------------
+
+// Single row (id = 1). The dashboard writes it; the worker polls it each tick.
+model BotConfig {
+  id            Int      @id @default(1)
+  mode          String   @default("paper")
+  symbol        String   @default("BTCUSDT")
+  strategy      String   @default("sma_cross")
+  params        String   @default("{}")
+  enabled       Boolean  @default(false)
+  quoteBudget   Float    @default(100)
+  maxOrderQuote Float    @default(20)
+  intervalMs    Int      @default(15000)
+  updatedAt     DateTime @updatedAt
+}
+
+// Single row (id = 1). Proves the worker is alive and reports its last error.
+model BotHeartbeat {
+  id         Int       @id @default(1)
+  state      String    @default("stopped")
+  pid        Int?
+  mode       String?
+  symbol     String?
+  lastTickAt DateTime?
+  lastPrice  Float?
+  lastSignal String?
+  lastError  String?
+  updatedAt  DateTime  @updatedAt
+}
+
+// Append-only worker log the dashboard tails.
+model BotEvent {
+  id      Int      @id @default(autoincrement())
+  ts      DateTime @default(now())
+  level   String   @default("info")
+  kind    String
+  symbol  String?
+  message String
+  data    String?
+
+  @@index([ts])
+}
+
+// One row per order the bot intends to place. `clientOrderId` is the
+// idempotency key: it is written before the exchange call, so a crash between
+// send and ack cannot produce a second order on retry.
+model BotOrder {
+  id              Int      @id @default(autoincrement())
+  clientOrderId   String   @unique
+  exchangeOrderId String?
+  mode            String
+  symbol          String
+  side            String
+  type            String
+  status          String   @default("PENDING")
+  qty             Float
+  price           Float?
+  filledQty       Float    @default(0)
+  avgPrice        Float?
+  quoteSpent      Float    @default(0)
+  reason          String?
+  error           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([symbol, status])
+}

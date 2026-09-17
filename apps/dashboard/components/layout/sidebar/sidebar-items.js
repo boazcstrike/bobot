@@ -1,4 +1,5 @@
 import {
+  CandlestickChart,
   ChartColumn,
   CreditCard,
   GitFork,
@@ -42,6 +43,17 @@ const sidebarItems = [
             url: "/credit-card-statements",
           },
         ],
+      },
+    ],
+  },
+  {
+    heading: "Trading",
+    items: [
+      {
+        id: "trading",
+        name: "Binance Bot",
+        icon: CandlestickChart,
+        url: "/trading",
       },
     ],
   },

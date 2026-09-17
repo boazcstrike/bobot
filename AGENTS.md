@@ -48,6 +48,7 @@ This repository has a single developer. Pull requests are **prohibited** here.
 - **/expenses** - Expenses tracking
 - **/credit-card-statements** - Credit card statement imports
 - **/expense-dashboard** - Expense visualization
+- **/trading** - Binance spot trading bot control panel (worker: `npm run dashboard:bot`)
 
 ## Dashboard User
 - Name: Boaz Sze

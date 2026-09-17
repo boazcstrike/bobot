@@ -20,7 +20,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "gameDeals": "node ./cron/gameDeals.js",
     "gamerPosts": "node ./cron/gamerNews.js",
-    "memes": "node ./cron/memes.js"
+    "memes": "node ./cron/memes.js",
+    "dashboard:bot": "npm --prefix ./apps/dashboard run bot"
   },
   "repository": {
     "type": "git",
