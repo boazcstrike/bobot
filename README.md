@@ -59,6 +59,11 @@ Official docs used:
 - Prisma 7 upgrade: https://www.prisma.io/docs/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-7
 - Prisma config reference: https://docs.prisma.io/docs/v6/orm/reference/prisma-config-reference
 
+## Docs
+- Backlog: `docs/backlog.md`
+- Plans index: `docs/plans/README.md`
+- Finished tasks: `docs/finished-tasks/README.md`
+
 ## Notes
 - Legacy root runtime was dependency-upgraded but not fully behavior-migrated to modern Discord/Firebase APIs in this pass.
 - Treat legacy runtime as preserved integration inventory while dashboard remains the production path.
