@@ -32,3 +32,12 @@ data/credit-card-statements/raw/
 
 # Misc artifacts
 skills-lock.json
+
+# Env, local data and database files (never commit)
+.env*
+!.env.example
+.data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
